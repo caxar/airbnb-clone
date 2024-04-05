@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const User = () => {
   return (
@@ -20,9 +21,12 @@ const User = () => {
           />
         </svg>
       </div> */}
-      <div
+
+      <Link
+        to="login"
         className="user-menu flex items-center border 
-     border-gray-300 rounded-full py-2 px-3 gap-3 cursor-pointer hover:shadow-md hover:shadow-gray-200"
+     border-gray-300 rounded-full py-2 px-3 gap-3 cursor-pointer hover:shadow-md hover:shadow-gray-200
+     transition ease-in-out"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +56,7 @@ const User = () => {
             />
           </svg>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

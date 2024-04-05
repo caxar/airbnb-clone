@@ -23,3 +23,21 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+input {
+  background: transparent;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  @apply w-full border border-gray-400 my-2 py-2 px-3 rounded-lg;
+}
+
+button {
+  @apply bg-gray-300;
+}
+
+button.login-form__btn {
+  @apply bg-primary p-2 w-full text-white rounded-lg;
+}
