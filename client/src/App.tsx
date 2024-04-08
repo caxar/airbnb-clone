@@ -4,6 +4,9 @@ import Home from "./components/Home";
 import Header from "./components/Header";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:6200";
 
 function App() {
   return (
