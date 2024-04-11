@@ -3,11 +3,13 @@ const cors = require("cors");
 require("dotenv").config();
 const mongoose = require("mongoose");
 const UserModel = require("./models/userModal");
-var bcrypt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const app = express();
 
 // генирвация соли
 const salthash = bcrypt.genSaltSync(10);
+const jwtSecretToken = "shhhhh";
 
 app.use(express.json());
 
@@ -32,7 +34,7 @@ app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   // Создание нового юзера
   try {
-    const user = await UserModel.create({
+    const userData = await UserModel.create({
       name,
       email,
       password: bcrypt.hashSync(password, salthash),
@@ -41,7 +43,32 @@ app.post("/register", async (req, res) => {
     res.status(422).json(error);
   }
 
-  res.json(user);
+  res.json(userData);
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const userData = await UserModel.findOne({ email });
+
+  if (userData) {
+    const correctpass = bcrypt.compareSync(password, userData.password);
+    if (correctpass) {
+      jwt.sign(
+        { email: userData.email, id: userData._id },
+        jwtSecretToken,
+        {},
+        (err, token) => {
+          if (err) throw err;
+          res.cookie("token", token).json(userData);
+        }
+      );
+    } else {
+      res.status(422).json("Пароль не совпадает");
+    }
+  } else {
+    res.json("Пользователь не найден");
+  }
 });
 
 app.listen(6200);
